@@ -1,4 +1,5 @@
 const Router = require("express").Router;
+const mongodb = require("mongodb");
 
 const router = Router();
 const db = require("./db");
@@ -17,6 +18,19 @@ router.get("/", (req, res) => {
     })
     .catch((err) => {
       res.status(500).json({ error: err });
+    });
+});
+
+router.get("/:id", (req, res) => {
+  db.get()
+    .db("shop")
+    .collection("products")
+    .findOne({ _id: new mongodb.ObjectId(req.params.id) })
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      res.status(500).json(err);
     });
 });
 

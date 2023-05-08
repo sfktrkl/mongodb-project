@@ -1,8 +1,10 @@
 <template>
-  <div class="home">
-    <div v-for="product in products" :key="product._id">
-      {{ product.name }} - {{ product.price }} |
-      <router-link :to="'/product/' + product._id">Details</router-link>
+  <div class="add">
+    <div>
+      <h3>Product</h3>
+      <p>ID: {{ id }}</p>
+      <p>Name: {{ name }}</p>
+      <p>Price: {{ price }}</p>
     </div>
     <div v-if="error">
       {{ error }}
@@ -17,15 +19,20 @@ const url = "http://localhost:3100/products";
 export default {
   data() {
     return {
+      id: "",
+      name: "",
+      price: "",
       error: null,
-      products: [],
     };
   },
   mounted() {
     axios
-      .get(url)
+      .get(url + "/" + this.$route.params.id)
       .then((result) => {
-        this.products = result.data;
+        this.error = null;
+        this.id = result.data._id;
+        this.name = result.data.name;
+        this.price = result.data.price;
       })
       .catch((err) => {
         this.error = err;
