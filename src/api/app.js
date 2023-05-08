@@ -1,5 +1,4 @@
 const express = require("express");
-const Router = require("express").Router;
 
 const app = express();
 const db = require("./db");
@@ -13,12 +12,7 @@ app.use((req, res, next) => {
   next();
 });
 
-const router = Router();
-router.get("/", (req, res) => {
-  res.status(200).json(false);
-});
-
-app.use("/", router);
+app.use("/products", require("./products"));
 
 db.initialize((err) => {
   if (err) console.log(err);
