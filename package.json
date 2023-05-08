@@ -6,10 +6,13 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "start:server": "node ./src/api/app.js"
+    "api": "node ./src/api/app.js"
   },
   "dependencies": {
+    "body-parser": "^1.20.2",
     "core-js": "^3.8.3",
+    "express": "^4.18.2",
+    "mongodb": "^5.4.0",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3"
   },
