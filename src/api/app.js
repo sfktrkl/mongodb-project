@@ -2,6 +2,7 @@ const express = require("express");
 const Router = require("express").Router;
 
 const app = express();
+const db = require("./db");
 const bodyParser = require("body-parser");
 
 app.use(bodyParser.json());
@@ -18,4 +19,8 @@ router.get("/", (req, res) => {
 });
 
 app.use("/", router);
-app.listen(3101);
+
+db.initialize((err) => {
+  if (err) console.log(err);
+  else app.listen(3100);
+});
