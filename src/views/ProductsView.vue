@@ -9,6 +9,16 @@
     <div v-if="error">
       {{ error }}
     </div>
+
+    <p>
+      <template v-if="page > 0">
+        <a @click.stop.prevent="previous()" href="/">Previous</a>
+      </template>
+      <template v-if="page > 0 && page < pageCount - 1"> | </template>
+      <template v-if="page < pageCount - 1">
+        <a @click.stop.prevent="next()" href="/">Next</a>
+      </template>
+    </p>
   </div>
 </template>
 
@@ -19,8 +29,10 @@ const url = "http://localhost:3100/products";
 export default {
   data() {
     return {
+      page: 0,
       error: null,
       products: [],
+      pageCount: 1,
     };
   },
   methods: {
@@ -36,16 +48,26 @@ export default {
     },
     fetchData: function () {
       axios
-        .get(url)
+        .get(url, { params: { page: this.page } })
         .then((result) => {
-          this.products = result.data;
+          this.products = result.data.products;
+          this.pageCount = result.data.pageCount;
         })
         .catch((err) => {
           this.error = err;
         });
     },
+    previous: function () {
+      this.page -= 1;
+      this.fetchData();
+    },
+    next: function () {
+      this.page += 1;
+      this.fetchData();
+    },
   },
   mounted() {
+    this.page = this.$route.query.page ?? 0;
     this.fetchData();
   },
 };

@@ -5,16 +5,30 @@ const router = Router();
 const db = require("./db");
 
 router.get("/", (req, res) => {
-  const products = [];
   db.get()
     .db("shop")
     .collection("products")
-    .find()
-    .forEach((productDoc) => {
-      products.push(productDoc);
-    })
-    .then(() => {
-      res.status(200).json(products);
+    .countDocuments()
+    .then((result) => {
+      const pageSize = 2;
+      const queryPage = req.query.page ?? 0;
+
+      const products = [];
+      db.get()
+        .db("shop")
+        .collection("products")
+        .find()
+        .skip(queryPage * pageSize)
+        .limit(pageSize)
+        .forEach((productDoc) => {
+          products.push(productDoc);
+        })
+        .then(() => {
+          res.status(200).json({ pageCount: result / pageSize, products: products });
+        })
+        .catch((err) => {
+          res.status(500).json({ error: err });
+        });
     })
     .catch((err) => {
       res.status(500).json({ error: err });
