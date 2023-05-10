@@ -2,7 +2,8 @@
   <div class="home">
     <div v-for="product in products" :key="product._id">
       {{ product.name }} - {{ product.price }} |
-      <router-link :to="'/product/' + product._id">Details</router-link>
+      <router-link :to="'/product/' + product._id">Details</router-link> |
+      <router-link :to="'/product/edit/' + product._id">Update</router-link> |
     </div>
     <div v-if="error">
       {{ error }}

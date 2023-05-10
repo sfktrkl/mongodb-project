@@ -34,6 +34,24 @@ router.get("/:id", (req, res) => {
     });
 });
 
+router.patch("/:id", (req, res) => {
+  db.get()
+    .db("shop")
+    .collection("products")
+    .updateOne(
+      { _id: new mongodb.ObjectId(req.params.id) },
+      {
+        $set: { name: req.body.name, price: req.body.price },
+      }
+    )
+    .then((result) => {
+      res.status(201).json(result);
+    })
+    .catch((err) => {
+      res.status(500).json(err);
+    });
+});
+
 router.post("/", (req, res) => {
   db.get()
     .db("shop")
