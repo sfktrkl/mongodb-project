@@ -52,6 +52,19 @@ router.patch("/:id", (req, res) => {
     });
 });
 
+router.delete("/:id", (req, res) => {
+  db.get()
+    .db("shop")
+    .collection("products")
+    .deleteOne({ _id: new mongodb.ObjectId(req.params.id) })
+    .then((result) => {
+      res.status(201).json(result);
+    })
+    .catch((err) => {
+      res.status(500).json(err);
+    });
+});
+
 router.post("/", (req, res) => {
   db.get()
     .db("shop")

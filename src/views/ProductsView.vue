@@ -4,6 +4,7 @@
       {{ product.name }} - {{ product.price }} |
       <router-link :to="'/product/' + product._id">Details</router-link> |
       <router-link :to="'/product/edit/' + product._id">Update</router-link> |
+      <a @click.stop.prevent="deleteProduct(product._id)" href="/">Delete</a>
     </div>
     <div v-if="error">
       {{ error }}
@@ -22,15 +23,30 @@ export default {
       products: [],
     };
   },
+  methods: {
+    deleteProduct: function (id) {
+      axios
+        .delete(url + "/" + id)
+        .then(() => {
+          this.fetchData();
+        })
+        .catch((err) => {
+          this.error = err;
+        });
+    },
+    fetchData: function () {
+      axios
+        .get(url)
+        .then((result) => {
+          this.products = result.data;
+        })
+        .catch((err) => {
+          this.error = err;
+        });
+    },
+  },
   mounted() {
-    axios
-      .get(url)
-      .then((result) => {
-        this.products = result.data;
-      })
-      .catch((err) => {
-        this.error = err;
-      });
+    this.fetchData();
   },
 };
 </script>
