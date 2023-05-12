@@ -8,6 +8,11 @@ const routes = [
     component: ProductsView,
   },
   {
+    path: "/register",
+    name: "register",
+    component: () => import("../views/RegisterView.vue"),
+  },
+  {
     path: "/product/add",
     name: "product add",
     component: () => import("../views/AddView.vue"),

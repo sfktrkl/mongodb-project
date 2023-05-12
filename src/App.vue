@@ -1,10 +1,21 @@
 <template>
   <nav>
     <router-link to="/">Products</router-link> |
-    <router-link to="/product/add">Add Product</router-link>
+    <router-link v-if="isLoggedIn" to="/product/add">Add Product</router-link>
+    <router-link v-if="!isLoggedIn" to="/register">Register</router-link>
   </nav>
   <router-view />
 </template>
+
+<script>
+import { mapState } from "vuex";
+
+export default {
+  computed: {
+    ...mapState(["isLoggedIn"]),
+  },
+};
+</script>
 
 <style>
 #app {

@@ -13,6 +13,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/products", require("./products"));
+app.use("/", require("./users"));
 
 db.initialize((err) => {
   if (err) console.log(err);
