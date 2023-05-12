@@ -2,17 +2,24 @@
   <nav>
     <router-link to="/">Products</router-link> |
     <router-link v-if="isLoggedIn" to="/product/add">Add Product</router-link>
+    <template v-if="isLoggedIn"> | </template>
+    <router-link v-if="!isLoggedIn" to="/login">Login</router-link>
+    <template v-if="!isLoggedIn"> | </template>
+    <a v-if="isLoggedIn" @click.stop.prevent="logout" href="/">Logout</a>
     <router-link v-if="!isLoggedIn" to="/register">Register</router-link>
   </nav>
   <router-view />
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   computed: {
     ...mapState(["isLoggedIn"]),
+  },
+  methods: {
+    ...mapActions(["logout"]),
   },
 };
 </script>
